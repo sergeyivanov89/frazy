@@ -1,9 +1,10 @@
+import { lazy, Suspense } from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
-import { Navbar, Nav, NavItem } from "reactstrap";
+import { Navbar, Nav, NavItem, Spinner } from "reactstrap";
 
-import MainPage from "../../pages/Main";
-import RandomPhrase from "../../pages/RandomPhrase";
-import Phrase from "../../pages/Phrase";
+const Main = lazy(() => import("../../pages/Main"));
+const RandomPhrase = lazy(() => import("../../pages/RandomPhrase"));
+const Phrase = lazy(() => import("../../pages/Phrase"));
 
 const App = () => {
   return (
@@ -16,11 +17,14 @@ const App = () => {
           </NavItem>
         </Nav>
       </Navbar>
-      <Routes>
-        <Route element={<MainPage />} path="/" />
-        <Route element={<RandomPhrase />} path="/random-phrase" />
-        <Route element={<Phrase />} path="/phrase/:phraseId" />
-      </Routes>
+
+      <Suspense fallback={<Spinner>Loading...</Spinner>}>
+        <Routes>
+          <Route element={<Main />} path="/" />
+          <Route element={<RandomPhrase />} path="/random-phrase" />
+          <Route element={<Phrase />} path="/phrase/:phraseId" />
+        </Routes>
+      </Suspense>
     </div>
   );
 };
