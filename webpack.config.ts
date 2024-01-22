@@ -87,6 +87,7 @@ export default (env: Arguments, { mode }: Arguments) => {
       static: false,
       port: 3000,
       open: true,
+      historyApiFallback: true,
     };
     config.devtool = "inline-source-map";
   }
