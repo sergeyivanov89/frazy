@@ -1,28 +1,20 @@
-import { lazy, Suspense } from "react";
-import { NavLink, Route, Routes } from "react-router-dom";
-import { Navbar, Nav, NavItem, Spinner } from "reactstrap";
+import { Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
+import { Spinner } from "reactstrap";
 
-const Main = lazy(() => import("../../pages/Main"));
-const RandomPhrase = lazy(() => import("../../pages/RandomPhrase"));
-const Phrase = lazy(() => import("../../pages/Phrase"));
+import Navbar from "../Navbar";
+import { routerConfig } from "@/shared/routerConfig";
 
 const App = () => {
   return (
-    <div className="p-2">
-      <Navbar color="dark">
-        <Nav navbar>
-          <NavItem>
-            <NavLink to="/">Словарь</NavLink>
-            <NavLink to="/random-phrase">Случайный</NavLink>
-          </NavItem>
-        </Nav>
-      </Navbar>
+    <div className="">
+      <Navbar />
 
       <Suspense fallback={<Spinner>Loading...</Spinner>}>
         <Routes>
-          <Route element={<Main />} path="/" />
-          <Route element={<RandomPhrase />} path="/random-phrase" />
-          <Route element={<Phrase />} path="/phrase/:phraseId" />
+          {routerConfig.map((props) => (
+            <Route key={props.path} {...props} />
+          ))}
         </Routes>
       </Suspense>
     </div>
