@@ -6,9 +6,9 @@ import type { RootProviderProps as Props } from "./types";
 
 const RootProvider: FC<Props> = ({ children }) => {
   return (
-    <RouterProvider>
-      <ReduxProvider>{children}</ReduxProvider>
-    </RouterProvider>
+    <ReduxProvider>
+      <RouterProvider>{children}</RouterProvider>
+    </ReduxProvider>
   );
 };
 
