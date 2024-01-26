@@ -1,50 +1,51 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getLetters, getPhrases } from "./thunks";
+import { getLetters, addPhrase } from "./thunks";
+import type { DictionarySliceState } from "./types";
 
-type GenericState<T> = {
-  data: T;
-  status?: "pending" | "success" | "error";
+const dictionarySliceState: DictionarySliceState = {
+  letters: {
+    data: [],
+  },
+  phrases: {
+    data: [],
+  },
 };
 
-const lettersInitialState: GenericState<string[]> = {
-  data: [],
-};
+export const dictionary = createSlice({
+  name: "dictionary",
 
-export const lettersSlice = createSlice({
-  name: "letters",
-  initialState: lettersInitialState,
+  initialState: dictionarySliceState,
+
   reducers: {},
+
   extraReducers: (builder) => {
-    builder.addCase(getLetters.pending, (state) => {
-      state.status = "pending";
+    builder.addCase(getLetters.pending, ({ letters }) => {
+      letters.status = "pending";
     });
-    builder.addCase(getLetters.fulfilled, (state, { payload }) => {
+
+    builder.addCase(getLetters.fulfilled, ({ letters }, { payload }) => {
+      letters.data = [];
       payload.forEach((el) => {
         const letter = el[0]?.letter;
         if (letter) {
-          state.data.push(letter);
+          letters.data.push(letter);
         }
       });
-      state.status = "success";
+      letters.status = "success";
     });
-    builder.addCase(getLetters.rejected, (state) => {
-      state.data = [];
-      state.status = "error";
-    });
-  },
-});
 
-export const phrasesSlice = createSlice({
-  name: "phrases",
-  initialState: {
-    items: [],
-  },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(
-      getPhrases.fulfilled,
-      (state, action) => (state = action.payload),
-    );
+    builder.addCase(getLetters.rejected, ({ letters }) => {
+      letters.data = [];
+      letters.status = "error";
+    });
+
+    builder.addCase(addPhrase.fulfilled, ({ letters }, { payload }) => {
+      const { letter } = payload;
+      if (!letters.data.includes(letter)) {
+        letters.data.push(letter);
+        letters.data.sort();
+      }
+    });
   },
 });

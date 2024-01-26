@@ -12,13 +12,15 @@ const App = () => {
     <div className={cn(styles.root)}>
       <Navbar />
 
-      <Suspense fallback={<Spinner>Loading...</Spinner>}>
-        <Routes>
-          {routerConfig.map((props) => (
-            <Route key={props.path} {...props} />
-          ))}
-        </Routes>
-      </Suspense>
+      <div className="p-3">
+        <Suspense fallback={<Spinner>Loading...</Spinner>}>
+          <Routes>
+            {routerConfig.map((props) => (
+              <Route key={props.path} {...props} />
+            ))}
+          </Routes>
+        </Suspense>
+      </div>
     </div>
   );
 };

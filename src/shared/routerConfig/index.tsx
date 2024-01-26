@@ -31,4 +31,8 @@ export const routerConfig: RouterConfig = [
     path: "/phrases/:phaseId",
     element: <Phrase />,
   },
+  {
+    path: "/phrases/letter/:letter",
+    element: null,
+  },
 ];

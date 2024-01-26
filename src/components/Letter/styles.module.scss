@@ -1,0 +1,13 @@
+.root {
+  --size: calc((100vw - 2rem) / 4);
+
+  width: var(--size);
+  height: var(--size);
+  border-radius: var(--bs-border-radius-2xl);
+  color: var(--bs-black);
+
+  &:hover {
+    background-color: var(--bs-gray-dark);
+    color: var(--bs-gray-100);
+  }
+}
