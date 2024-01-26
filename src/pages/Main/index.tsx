@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Spinner } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import Letter from "@/components/Letter";
@@ -7,18 +8,26 @@ import type { AppDispatch, RootState } from "@/redux/types";
 
 const MainPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const letters = useSelector(
-    (state: RootState) => state.dictionary.letters.data,
+  const { data: letters, status } = useSelector(
+    (state: RootState) => state.dictionary.letters,
   );
 
   useEffect(() => {
     dispatch(getLetters());
   }, [dispatch]);
 
+  if (status === "pending") {
+    return <Spinner>Loading...</Spinner>;
+  }
+
+  if (status === "error") {
+    return "Some error occurred.";
+  }
+
   return (
     <div className="d-flex flex-wrap">
       {letters.map((letter) => (
-        <Letter key={letter} to={`/phrases/letter/${letter}`}>
+        <Letter key={letter} to={`/letters/${letter}`}>
           {letter}
         </Letter>
       ))}
