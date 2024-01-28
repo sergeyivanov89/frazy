@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Letter from "@/components/Letter";
 import { getLetters } from "@/redux/thunks";
+import withNavPage from "@/pages/withNavPage";
 import type { AppDispatch, RootState } from "@/redux/types";
 
 const MainPage = () => {
@@ -25,9 +26,9 @@ const MainPage = () => {
   }
 
   return (
-    <div className="d-flex flex-wrap">
+    <div className="grid">
       {letters.map((letter) => (
-        <Letter key={letter} to={`/letters/${letter}`}>
+        <Letter key={letter} className="g-col-3" to={`/letters/${letter}`}>
           {letter}
         </Letter>
       ))}
@@ -35,4 +36,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default withNavPage(MainPage);

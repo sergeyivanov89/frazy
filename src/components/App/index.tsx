@@ -1,18 +1,22 @@
 import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Spinner } from "reactstrap";
-import cn from "classnames";
+import { useSelector } from "react-redux";
 
 import Navbar from "../Navbar";
 import { routerConfig } from "@/shared/routerConfig";
-import styles from "./styles.module.scss";
+import type { RootState } from "@/redux/types";
 
 const App = () => {
-  return (
-    <div className={cn(styles.root)}>
-      <Navbar />
+  const header = useSelector((state: RootState) => state.app.header);
 
-      <div className="p-3">
+  return (
+    <div className="d-flex flex-column h-100">
+      <header className="px-5 py-4 bg-dark text-light fs-1 text-center">
+        {header}
+      </header>
+
+      <main className="p-5 flex-grow-1 bg-light">
         <Suspense fallback={<Spinner>Loading...</Spinner>}>
           <Routes>
             {routerConfig.map((props) => (
@@ -20,7 +24,11 @@ const App = () => {
             ))}
           </Routes>
         </Suspense>
-      </div>
+      </main>
+
+      <footer className="bg-dark">
+        <Navbar />
+      </footer>
     </div>
   );
 };

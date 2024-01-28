@@ -1,4 +1,11 @@
 import { lazy } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBook,
+  faBrain,
+  faTrophy,
+  faHeart,
+} from "@fortawesome/free-solid-svg-icons";
 
 import type { NavigationConfig, RouterConfig } from "./types";
 
@@ -11,6 +18,22 @@ export const navigationConfig: NavigationConfig = [
   {
     path: "/",
     text: "Словарь",
+    icon: <FontAwesomeIcon icon={faBook} />,
+  },
+  {
+    path: "/train",
+    text: "Викторина",
+    icon: <FontAwesomeIcon icon={faBrain} />,
+  },
+  {
+    path: "/achievements",
+    text: "Достижения",
+    icon: <FontAwesomeIcon icon={faTrophy} />,
+  },
+  {
+    path: "/likes",
+    text: "Любимые",
+    icon: <FontAwesomeIcon icon={faHeart} />,
   },
 ];
 

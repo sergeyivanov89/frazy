@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getLetters, addPhrase } from "./thunks";
-import type { DictionarySliceState } from "./types";
+import { getLetters, getPhrases, addPhrase } from "./thunks";
+import type { AppState, DictionaryState } from "./types";
 
-const dictionarySliceState: DictionarySliceState = {
+const appSliceState: AppState = {
+  header: "",
+};
+
+const dictionarySliceState: DictionaryState = {
   letters: {
     data: [],
   },
@@ -11,6 +15,18 @@ const dictionarySliceState: DictionarySliceState = {
     data: [],
   },
 };
+
+export const app = createSlice({
+  name: "app",
+  initialState: appSliceState,
+  reducers: {
+    setHeader: (state, { payload }) => {
+      state.header = payload;
+    },
+  },
+});
+
+export const setHeader = app.actions.setHeader;
 
 export const dictionary = createSlice({
   name: "dictionary",
@@ -21,6 +37,7 @@ export const dictionary = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(getLetters.pending, ({ letters }) => {
+      letters.data = [];
       letters.status = "pending";
     });
 
@@ -40,6 +57,16 @@ export const dictionary = createSlice({
       letters.status = "error";
     });
 
+    builder.addCase(getPhrases.pending, ({ phrases }) => {
+      phrases.data = [];
+      phrases.status = "pending";
+    });
+
+    builder.addCase(getPhrases.fulfilled, ({ phrases }, { payload }) => {
+      phrases.data = payload;
+      phrases.status = "success";
+    });
+
     builder.addCase(addPhrase.fulfilled, ({ letters }, { payload }) => {
       const { letter } = payload;
       if (!letters.data.includes(letter)) {
@@ -49,3 +76,5 @@ export const dictionary = createSlice({
     });
   },
 });
+
+console.log(dictionary);

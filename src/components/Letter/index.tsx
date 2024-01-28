@@ -8,19 +8,12 @@ import styles from "./styles.module.scss";
 
 export type LetterProps = PropsWithChildren<LinkProps>;
 
-const Letter: FC<LetterProps> = ({ children, className, ...rest }) => {
-  return (
-    <Link
-      className={cn(
-        styles.root,
-        "d-flex justify-content-center text-decoration-none",
-        className,
-      )}
-      {...rest}
-    >
-      <div className="align-self-center fs-1 text-uppercase">{children}</div>
-    </Link>
-  );
-};
+const Letter: FC<LetterProps> = ({ children, className, ...rest }) => (
+  <Link className={cn("position-relative", styles.root, className)} {...rest}>
+    <div className="position-absolute w-100 h-100 top-0 end-0 d-flex justify-content-center fs-1 text-uppercase">
+      <div className="align-self-center">{children}</div>
+    </div>
+  </Link>
+);
 
 export default memo(Letter);

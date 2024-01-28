@@ -1,18 +1,17 @@
 import store from "@/redux/store";
 
+import { Phrase } from "@/types";
+
 type RequestType<T> = {
   data: T;
   status?: "pending" | "success" | "error";
 };
 
-export type Phrase = {
-  id: number;
-  letter: string;
-  name: string;
-  meanings: string[];
+export type AppState = {
+  header: string;
 };
 
-export type DictionarySliceState = {
+export type DictionaryState = {
   letters: RequestType<string[]>;
   phrases: RequestType<Phrase[]>;
 };

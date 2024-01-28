@@ -1,31 +1,34 @@
-import { Nav, Navbar, NavItem } from "reactstrap";
+import { cloneElement, type FC } from "react";
 import { NavLink } from "react-router-dom";
+import cn from "classnames";
 
 import { navigationConfig } from "@/shared/routerConfig";
+import styles from "./styles.module.scss";
 
-import type { FC } from "react";
-
-export type NavbarCustomProps = {
+export type NavbarProps = {
   className?: string;
 };
 
-const NavbarCustom: FC<NavbarCustomProps> = ({ className }) => (
-  <Navbar color="dark" className={className}>
-    <Nav className="gap-3">
-      {navigationConfig.map(({ path, text }) => (
-        <NavItem key={path}>
+const Navbar: FC<NavbarProps> = ({ className }) => (
+  <nav className={className}>
+    <ul className="d-flex flex-nowrap p-0 m-0">
+      {navigationConfig.map(({ path, icon }) => (
+        <li key={path} className={cn("flex-grow-1", styles.item)}>
           <NavLink
             className={({ isActive }) =>
-              isActive ? "text-white" : "text-secondary"
+              cn(
+                "d-flex justify-content-center fs-1 py-4",
+                isActive ? "text-white" : "text-secondary",
+              )
             }
             to={path}
           >
-            {text}
+            {cloneElement(icon)}
           </NavLink>
-        </NavItem>
+        </li>
       ))}
-    </Nav>
-  </Navbar>
+    </ul>
+  </nav>
 );
 
-export default NavbarCustom;
+export default Navbar;
