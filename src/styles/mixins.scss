@@ -1,11 +1,14 @@
-@mixin tile() {
-  background-color: var(--bs-white);
-  color: var(--bs-black);
-  box-shadow: var(--bs-box-shadow);
-  text-decoration: none;
+@mixin tile($link: true) {
+  @if $link {
+    color: var(--bs-black);
+    text-decoration: none;
 
-  &:hover {
-    background-color: var(--bs-dark);
-    color: var(--bs-light);
+    &:hover {
+      background-color: var(--bs-dark);
+      color: var(--bs-light);
+    }
   }
+
+  background-color: var(--bs-white);
+  box-shadow: var(--bs-box-shadow);
 }

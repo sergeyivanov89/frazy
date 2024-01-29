@@ -1,6 +1,6 @@
 import { HOST } from "@/constants";
 
-const delay = () => new Promise((resolve) => setTimeout(resolve, 1000));
+const delay = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 const api = async (path: string, method = "get", data = undefined) => {
   await delay();

@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getLetters, getPhrases, addPhrase } from "./thunks";
+import {
+  getLetters,
+  getPhrases,
+  getPhrase,
+  addPhrase,
+  updatePhrase,
+} from "./thunks";
 import type { AppState, DictionaryState } from "./types";
 
 const appSliceState: AppState = {
@@ -10,9 +16,19 @@ const appSliceState: AppState = {
 const dictionarySliceState: DictionaryState = {
   letters: {
     data: [],
+    status: undefined,
   },
   phrases: {
     data: [],
+    status: undefined,
+  },
+  phrase: {
+    data: null,
+    status: undefined,
+  },
+  update: {
+    data: null,
+    status: undefined,
   },
 };
 
@@ -40,7 +56,6 @@ export const dictionary = createSlice({
       letters.data = [];
       letters.status = "pending";
     });
-
     builder.addCase(getLetters.fulfilled, ({ letters }, { payload }) => {
       letters.data = [];
       payload.forEach((el) => {
@@ -51,9 +66,7 @@ export const dictionary = createSlice({
       });
       letters.status = "success";
     });
-
     builder.addCase(getLetters.rejected, ({ letters }) => {
-      letters.data = [];
       letters.status = "error";
     });
 
@@ -61,14 +74,11 @@ export const dictionary = createSlice({
       phrases.data = [];
       phrases.status = "pending";
     });
-
     builder.addCase(getPhrases.fulfilled, ({ phrases }, { payload }) => {
       phrases.data = payload;
       phrases.status = "success";
     });
-
     builder.addCase(getPhrases.rejected, ({ phrases }) => {
-      phrases.data = [];
       phrases.status = "error";
     });
 
@@ -89,5 +99,33 @@ export const dictionary = createSlice({
         }
       },
     );
+
+    builder.addCase(getPhrase.pending, ({ phrase }) => {
+      phrase.data = null;
+      phrase.status = "pending";
+    });
+    builder.addCase(getPhrase.fulfilled, ({ phrase }, { payload }) => {
+      phrase.data = payload;
+      phrase.status = "success";
+    });
+    builder.addCase(getPhrase.rejected, ({ phrase }) => {
+      phrase.status = "error";
+    });
+
+    builder.addCase(updatePhrase.pending, ({ update }) => {
+      update.data = null;
+      update.status = "pending";
+    });
+    builder.addCase(
+      updatePhrase.fulfilled,
+      ({ phrase, update }, { payload }) => {
+        phrase.data = payload;
+        update.data = payload;
+        update.status = "success";
+      },
+    );
+    builder.addCase(updatePhrase.rejected, ({ update }) => {
+      update.status = "error";
+    });
   },
 });

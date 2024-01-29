@@ -14,6 +14,8 @@ export type AppState = {
 export type DictionaryState = {
   letters: RequestType<string[]>;
   phrases: RequestType<Phrase[]>;
+  phrase: RequestType<Phrase | null>;
+  update: RequestType<Phrase | null>;
 };
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,0 +1,18 @@
+@import "@/styles/mixins";
+
+.root {
+  @include tile(false);
+}
+
+.image {
+  height: 30vw;
+  background-color: var(--bs-light);
+}
+
+.meanings {
+  list-style: none;
+}
+
+.icon {
+  color: #d20000;
+}

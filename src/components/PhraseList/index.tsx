@@ -12,7 +12,7 @@ export type PhraseListProps = {
 const PhraseList: FC<PhraseListProps> = ({ items, className }) => (
   <div className={cn("d-flex flex-column gap-3", className)}>
     {items.map(({ id, name }) => (
-      <PhraseListItem key={id} className="fs-3 p-4" to={`/phrase/${id}`}>
+      <PhraseListItem key={id} className="fs-3 p-4" to={`/phrases/${id}`}>
         {name}
       </PhraseListItem>
     ))}

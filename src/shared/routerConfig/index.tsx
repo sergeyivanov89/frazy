@@ -43,7 +43,7 @@ export const routerConfig: RouterConfig = [
     element: <Main />,
   },
   {
-    path: "/phrases/:phaseId",
+    path: "/phrases/:phraseId",
     element: <Phrase />,
   },
   {
