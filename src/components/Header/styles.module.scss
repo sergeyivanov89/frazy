@@ -1,0 +1,14 @@
+.title {
+  margin-right: -3rem;
+}
+
+.button {
+  width: 4rem;
+  height: 3rem;
+  margin-right: -1rem;
+  color: var(--bs-secondary);
+
+  &:hover {
+    color: var(--bs-light);
+  }
+}

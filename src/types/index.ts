@@ -10,3 +10,5 @@ export type Phrase = {
   name: string;
   meanings: string[];
 };
+
+export type AddedPhrase = Omit<Phrase, "id">;

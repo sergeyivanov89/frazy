@@ -1,12 +1,11 @@
-@mixin tile($border-radius: var(--bs-border-radius)) {
-  border-radius: $border-radius;
+@mixin tile() {
   background-color: var(--bs-white);
   color: var(--bs-black);
   box-shadow: var(--bs-box-shadow);
   text-decoration: none;
 
   &:hover {
-    background-color: var(--bs-gray-dark);
-    color: var(--bs-gray-100);
+    background-color: var(--bs-dark);
+    color: var(--bs-light);
   }
 }

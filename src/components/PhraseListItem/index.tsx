@@ -11,7 +11,7 @@ const PhraseListItem: FC<PhraseListItemProps> = ({
   className,
   ...rest
 }) => (
-  <Link className={cn(styles.root, className)} {...rest}>
+  <Link className={cn("rounded-3", styles.root, className)} {...rest}>
     {children}
   </Link>
 );

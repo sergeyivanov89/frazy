@@ -67,14 +67,27 @@ export const dictionary = createSlice({
       phrases.status = "success";
     });
 
-    builder.addCase(addPhrase.fulfilled, ({ letters }, { payload }) => {
-      const { letter } = payload;
-      if (!letters.data.includes(letter)) {
-        letters.data.push(letter);
-        letters.data.sort();
-      }
+    builder.addCase(getPhrases.rejected, ({ phrases }) => {
+      phrases.data = [];
+      phrases.status = "error";
     });
+
+    builder.addCase(
+      addPhrase.fulfilled,
+      (
+        { letters: { data: letters }, phrases: { data: phrases } },
+        { payload },
+      ) => {
+        const { letter } = payload;
+        if (phrases[0].letter === letter) {
+          phrases.push(payload);
+          phrases.sort((a, b) => (a.name > b.name ? 1 : -1));
+        }
+        if (!letters.includes(letter)) {
+          letters.push(letter);
+          letters.sort();
+        }
+      },
+    );
   },
 });
-
-console.log(dictionary);

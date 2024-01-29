@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import api from "@/api";
 import { ALPHABET } from "@/constants";
-import type { JSONType, Phrase } from "@/types";
+import type { JSONType, Phrase, AddedPhrase } from "@/types";
 
 export const getLetters = createAsyncThunk("getLetters", async () => {
   const urls: string[] = [];
@@ -22,9 +22,7 @@ export const getPhrases = createAsyncThunk(
   },
 );
 
-export const addPhrase = createAsyncThunk("addPhrase", async (data: Phrase) => {
-  return await api("/phrases", "post", {
-    ...data,
-    letter: data.name[0].toLowerCase(),
-  } as never);
-});
+export const addPhrase = createAsyncThunk(
+  "addPhrase",
+  async (data: AddedPhrase) => await api("/phrases", "post", data as never),
+);
