@@ -48,34 +48,36 @@ const Phrase = () => {
   const { like, name, meanings } = data;
 
   return (
-    <div className={cn("grid shadow rounded p-5", styles.root)}>
-      <div className="g-col-10 fs-1">{name}</div>
-      <div className="g-col-2">
-        <div
-          className="d-flex justify-content-end"
-          onClick={onLikeToggle}
-          role="button"
-        >
-          <FontAwesomeIcon
-            className={cn("fs-1", styles.icon)}
-            icon={like ? faHeartSolid : faHeartRegular}
-          />
+    <>
+      <div className={cn("grid shadow rounded p-5", styles.root)}>
+        <div className="g-col-10 fs-1">{name}</div>
+        <div className="g-col-2">
+          <div
+            className="d-flex justify-content-end"
+            onClick={onLikeToggle}
+            role="button"
+          >
+            <FontAwesomeIcon
+              className={cn("fs-1", styles.icon)}
+              icon={like ? faHeartSolid : faHeartRegular}
+            />
+          </div>
         </div>
+        <div
+          className={cn(
+            "g-col-12 w-100 d-flex align-items-center justify-content-center",
+            styles.image,
+          )}
+        >
+          <div>Скоро здесь появится изображение</div>
+        </div>
+        <ul className={cn("g-col-12 p-0 m-0 fs-4", styles.meanings)}>
+          {meanings.map((item, idx) => (
+            <li key={idx}>{item}</li>
+          ))}
+        </ul>
       </div>
-      <div
-        className={cn(
-          "g-col-12 w-100 d-flex align-items-center justify-content-center",
-          styles.image,
-        )}
-      >
-        <div>Скоро здесь появится изображение</div>
-      </div>
-      <ul className={cn("g-col-12 p-0 m-0 fs-4", styles.meanings)}>
-        {meanings.map((item, idx) => (
-          <li key={idx}>{item}</li>
-        ))}
-      </ul>
-    </div>
+    </>
   );
 };
 
