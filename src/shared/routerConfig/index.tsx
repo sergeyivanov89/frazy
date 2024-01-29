@@ -12,6 +12,7 @@ import type { NavigationConfig, RouterConfig } from "./types";
 const Main = lazy(() => import("@/pages/Main"));
 const Phrase = lazy(() => import("@/pages/Phrase"));
 const Phrases = lazy(() => import("@/pages/Phrases"));
+const Likes = lazy(() => import("@/pages/Likes"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
 export const navigationConfig: NavigationConfig = [
@@ -49,6 +50,10 @@ export const routerConfig: RouterConfig = [
   {
     path: "/letters/:letter",
     element: <Phrases />,
+  },
+  {
+    path: "/likes",
+    element: <Likes />,
   },
   {
     path: "*",

@@ -16,6 +16,7 @@ export type DictionaryState = {
   phrases: RequestType<Phrase[]>;
   phrase: RequestType<Phrase | null>;
   update: RequestType<Phrase | null>;
+  likes: RequestType<Phrase[]>;
 };
 
 export type RootState = ReturnType<typeof store.getState>;

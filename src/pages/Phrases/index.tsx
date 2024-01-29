@@ -33,7 +33,12 @@ const Phrases = () => {
     return "Some error occurred.";
   }
 
-  return <PhraseList items={data} />;
+  return (
+    <PhraseList
+      items={data}
+      placeholder="There's no phrases. Add your fisrt one."
+    />
+  );
 };
 
 export default Phrases;

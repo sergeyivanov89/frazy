@@ -6,8 +6,10 @@ import {
   getPhrase,
   addPhrase,
   updatePhrase,
+  getLikes,
 } from "./thunks";
 import type { AppState, DictionaryState } from "./types";
+import likes from "@/pages/Likes";
 
 const appSliceState: AppState = {
   header: "",
@@ -28,6 +30,10 @@ const dictionarySliceState: DictionaryState = {
   },
   update: {
     data: null,
+    status: undefined,
+  },
+  likes: {
+    data: [],
     status: undefined,
   },
 };
@@ -126,6 +132,18 @@ export const dictionary = createSlice({
     );
     builder.addCase(updatePhrase.rejected, ({ update }) => {
       update.status = "error";
+    });
+
+    builder.addCase(getLikes.pending, ({ likes }) => {
+      likes.data = [];
+      likes.status = "pending";
+    });
+    builder.addCase(getLikes.fulfilled, ({ likes }, { payload }) => {
+      likes.data = payload;
+      likes.status = "success";
+    });
+    builder.addCase(getLikes.rejected, ({ likes }) => {
+      likes.status = "error";
     });
   },
 });

@@ -39,3 +39,8 @@ export const updatePhrase = createAsyncThunk(
     return await api(`/phrases/${id}`, "put", params as never);
   },
 );
+
+export const getLikes = createAsyncThunk(
+  "getLikes",
+  async () => await api("/phrases?like=true"),
+);
