@@ -8,7 +8,7 @@ export const getLetters = createAsyncThunk("getLetters", async () => {
   const urls: string[] = [];
 
   for (let i = 0; i < ALPHABET.length; i++) {
-    urls.push(`/phrases?letter=${ALPHABET[i]}&_limit=1`);
+    urls.push(`/phrases?name_like=^${ALPHABET[i]}&_limit=1`);
   }
 
   return await Promise.all<Phrase[]>(urls.map((url) => api(url)));
@@ -43,4 +43,9 @@ export const updatePhrase = createAsyncThunk(
 export const getLikes = createAsyncThunk(
   "getLikes",
   async () => await api("/phrases?like=true"),
+);
+
+export const getQuiz = createAsyncThunk(
+  "getQuiz",
+  async () => await api("/phrases"),
 );

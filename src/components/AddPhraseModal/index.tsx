@@ -24,7 +24,6 @@ const AddPhraseModal: FC<AddPhraseModalProps> = ({ isOpen, toggle }) => {
     return {
       name,
       meanings,
-      letter: name[0].toLowerCase(),
       like: false,
     };
   };

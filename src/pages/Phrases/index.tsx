@@ -18,7 +18,7 @@ const Phrases = () => {
   useEffect(() => {
     dispatch(
       getPhrases({
-        letter: letter!,
+        name_like: `^${letter}`,
         _sort: "name",
       }),
     );

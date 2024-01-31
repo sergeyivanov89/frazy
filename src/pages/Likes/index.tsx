@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Spinner } from "reactstrap";
 
 import PhraseList from "@/components/PhraseList";
-import withNavPage from "@/pages/withNavPage";
+import withNavPage from "../withNavPage";
 import { getLikes } from "@/redux/thunks";
 import type { AppDispatch, RootState } from "@/redux/types";
 

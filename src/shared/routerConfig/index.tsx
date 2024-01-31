@@ -12,6 +12,7 @@ import type { NavigationConfig, RouterConfig } from "./types";
 const Main = lazy(() => import("@/pages/Main"));
 const Phrase = lazy(() => import("@/pages/Phrase"));
 const Phrases = lazy(() => import("@/pages/Phrases"));
+const Quiz = lazy(() => import("@/pages/Quiz"));
 const Likes = lazy(() => import("@/pages/Likes"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
@@ -22,7 +23,7 @@ export const navigationConfig: NavigationConfig = [
     icon: <FontAwesomeIcon icon={faBook} />,
   },
   {
-    path: "/train",
+    path: "/quiz",
     text: "Викторина",
     icon: <FontAwesomeIcon icon={faBrain} />,
   },
@@ -50,6 +51,10 @@ export const routerConfig: RouterConfig = [
   {
     path: "/letters/:letter",
     element: <Phrases />,
+  },
+  {
+    path: "/quiz",
+    element: <Quiz />,
   },
   {
     path: "/likes",

@@ -7,9 +7,16 @@ export type JSONType = {
 export type Phrase = {
   id: number;
   like: boolean;
-  letter: string;
   name: string;
   meanings: string[];
+};
+
+export type QuizQuestion = Partial<Phrase>;
+
+export type QuizAnswer = {
+  text: string;
+  isRight: boolean;
+  isSelected: boolean;
 };
 
 export type AddedPhrase = Omit<Phrase, "id">;

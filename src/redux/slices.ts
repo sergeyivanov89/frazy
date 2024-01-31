@@ -7,15 +7,16 @@ import {
   addPhrase,
   updatePhrase,
   getLikes,
+  getQuiz,
 } from "./thunks";
-import type { AppState, DictionaryState } from "./types";
-import likes from "@/pages/Likes";
+import type { Phrase, QuizAnswer } from "@/types";
+import type { AppState, DictionaryState, QuizState } from "./types";
 
-const appSliceState: AppState = {
+const appState: AppState = {
   header: "",
 };
 
-const dictionarySliceState: DictionaryState = {
+const dictionaryState: DictionaryState = {
   letters: {
     data: [],
     status: undefined,
@@ -38,9 +39,15 @@ const dictionarySliceState: DictionaryState = {
   },
 };
 
+const quizState: QuizState = {
+  steps: [],
+  status: undefined,
+  currentStep: undefined,
+};
+
 export const app = createSlice({
   name: "app",
-  initialState: appSliceState,
+  initialState: appState,
   reducers: {
     setHeader: (state, { payload }) => {
       state.header = payload;
@@ -48,12 +55,10 @@ export const app = createSlice({
   },
 });
 
-export const setHeader = app.actions.setHeader;
-
 export const dictionary = createSlice({
   name: "dictionary",
 
-  initialState: dictionarySliceState,
+  initialState: dictionaryState,
 
   reducers: {},
 
@@ -65,7 +70,7 @@ export const dictionary = createSlice({
     builder.addCase(getLetters.fulfilled, ({ letters }, { payload }) => {
       letters.data = [];
       payload.forEach((el) => {
-        const letter = el[0]?.letter;
+        const letter = el[0]?.name[0];
         if (letter) {
           letters.data.push(letter);
         }
@@ -94,8 +99,8 @@ export const dictionary = createSlice({
         { letters: { data: letters }, phrases: { data: phrases } },
         { payload },
       ) => {
-        const { letter } = payload;
-        if (phrases[0].letter === letter) {
+        const letter = payload.name[0];
+        if (phrases[0]?.name[0] === letter) {
           phrases.push(payload);
           phrases.sort((a, b) => (a.name > b.name ? 1 : -1));
         }
@@ -147,3 +152,68 @@ export const dictionary = createSlice({
     });
   },
 });
+
+export const quiz = createSlice({
+  name: "quiz",
+
+  initialState: quizState,
+
+  reducers: {
+    selectAnswer: ({ steps, currentStep }, { payload: idx }) => {
+      steps[currentStep!].answers[idx].isSelected = true;
+    },
+    changeStep: (state, { payload: idx }) => {
+      state.currentStep = idx;
+    },
+  },
+
+  extraReducers: (builder) => {
+    builder.addCase(getQuiz.fulfilled, (state, { payload }) => {
+      const questions: Phrase[] = payload
+        .toSorted(() => Math.random() - 0.5)
+        .slice(0, 5);
+
+      questions.forEach((question, questionIdx, questionArr) => {
+        const { meanings, ...rest } = question;
+        const answers: QuizAnswer[] = [];
+
+        answers.push({
+          text: meanings[0],
+          isRight: true,
+          isSelected: false,
+        });
+
+        questionArr
+          .reduce<Phrase["meanings"]>((acc, currVal, idx) => {
+            if (idx !== questionIdx) {
+              acc.push(...currVal.meanings);
+            }
+            return acc;
+          }, [])
+          .toSorted(() => Math.random() - 0.5)
+          .slice(0, 2)
+          .forEach((text) => {
+            answers.push({
+              text,
+              isRight: false,
+              isSelected: false,
+            });
+          });
+
+        answers.sort(() => Math.random() - 0.5);
+
+        state.steps.push({
+          question: rest,
+          answers,
+        });
+      });
+
+      state.currentStep = 0;
+      state.status = "success";
+    });
+  },
+});
+
+export const setHeader = app.actions.setHeader;
+export const selectAnswer = quiz.actions.selectAnswer;
+export const changeStep = quiz.actions.changeStep;
