@@ -8,9 +8,16 @@ import {
   updatePhrase,
   getLikes,
   getQuiz,
+  getScores,
+  addScore,
 } from "./thunks";
 import type { Phrase, QuizAnswer } from "@/types";
-import type { AppState, DictionaryState, QuizState } from "./types";
+import type {
+  AppState,
+  DictionaryState,
+  QuizState,
+  ScoresState,
+} from "./types";
 
 const appState: AppState = {
   header: "",
@@ -43,6 +50,17 @@ const quizState: QuizState = {
   steps: [],
   status: undefined,
   currentStep: undefined,
+};
+
+const scoresState: ScoresState = {
+  get: {
+    data: [],
+    status: undefined,
+  },
+  add: {
+    data: null,
+    status: undefined,
+  },
 };
 
 export const app = createSlice({
@@ -168,6 +186,9 @@ export const quiz = createSlice({
   },
 
   extraReducers: (builder) => {
+    builder.addCase(getQuiz.pending, (state) => {
+      Object.assign(state, quizState, { status: "pending" });
+    });
     builder.addCase(getQuiz.fulfilled, (state, { payload }) => {
       const questions: Phrase[] = payload
         .toSorted(() => Math.random() - 0.5)
@@ -210,6 +231,43 @@ export const quiz = createSlice({
 
       state.currentStep = 0;
       state.status = "success";
+    });
+    builder.addCase(getQuiz.rejected, (state) => {
+      state.status = "error";
+    });
+  },
+});
+
+export const scores = createSlice({
+  name: "scores",
+
+  initialState: scoresState,
+
+  reducers: {},
+
+  extraReducers: (builder) => {
+    builder.addCase(getScores.pending, ({ get }) => {
+      get.data = [];
+      get.status = "pending";
+    });
+    builder.addCase(getScores.fulfilled, ({ get }, { payload }) => {
+      get.data = payload;
+      get.status = "success";
+    });
+    builder.addCase(getScores.rejected, ({ get }) => {
+      get.status = "error";
+    });
+
+    builder.addCase(addScore.pending, ({ add }) => {
+      add.data = null;
+      add.status = "pending";
+    });
+    builder.addCase(addScore.fulfilled, ({ add }, { payload }) => {
+      add.data = payload;
+      add.status = "success";
+    });
+    builder.addCase(addScore.rejected, ({ add }) => {
+      add.status = "error";
     });
   },
 });

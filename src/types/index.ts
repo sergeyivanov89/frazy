@@ -19,5 +19,13 @@ export type QuizAnswer = {
   isSelected: boolean;
 };
 
+export type Score = {
+  id: number;
+  time: number;
+  percentage: number;
+};
+
 export type AddedPhrase = Omit<Phrase, "id">;
 export type UpdatedPhrase = Partial<Phrase>;
+
+export type AddedScore = Omit<Score, "id">;

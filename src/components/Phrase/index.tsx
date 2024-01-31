@@ -12,6 +12,7 @@ import type { AppDispatch, RootState } from "@/redux/types";
 
 export type PhraseProps = Partial<Phrase> & {
   className?: string;
+  showMeanings?: boolean;
 };
 
 const Phrase: FC<PhraseProps> = (props) => {

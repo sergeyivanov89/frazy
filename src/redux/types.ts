@@ -1,6 +1,6 @@
 import store from "@/redux/store";
 
-import type { Phrase, QuizQuestion, QuizAnswer } from "@/types";
+import type { Phrase, QuizQuestion, QuizAnswer, Score } from "@/types";
 
 type RequestType<T> = {
   data: T;
@@ -26,6 +26,11 @@ export type QuizState = {
   }[];
   currentStep?: number;
   status?: "pending" | "success" | "error";
+};
+
+export type ScoresState = {
+  get: RequestType<Score[]>;
+  add: RequestType<Score | null>;
 };
 
 export type RootState = ReturnType<typeof store.getState>;

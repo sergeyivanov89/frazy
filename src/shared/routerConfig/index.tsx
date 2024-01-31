@@ -13,6 +13,7 @@ const Main = lazy(() => import("@/pages/Main"));
 const Phrase = lazy(() => import("@/pages/Phrase"));
 const Phrases = lazy(() => import("@/pages/Phrases"));
 const Quiz = lazy(() => import("@/pages/Quiz"));
+const Progress = lazy(() => import("@/pages/Progress"));
 const Likes = lazy(() => import("@/pages/Likes"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
@@ -28,8 +29,8 @@ export const navigationConfig: NavigationConfig = [
     icon: <FontAwesomeIcon icon={faBrain} />,
   },
   {
-    path: "/achievements",
-    text: "Достижения",
+    path: "/progress",
+    text: "Прогресс",
     icon: <FontAwesomeIcon icon={faTrophy} />,
   },
   {
@@ -55,6 +56,10 @@ export const routerConfig: RouterConfig = [
   {
     path: "/quiz",
     element: <Quiz />,
+  },
+  {
+    path: "/progress",
+    element: <Progress />,
   },
   {
     path: "/likes",

@@ -2,7 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import api from "@/api";
 import { ALPHABET } from "@/constants";
-import type { JSONType, Phrase, AddedPhrase, UpdatedPhrase } from "@/types";
+import type {
+  JSONType,
+  Phrase,
+  AddedPhrase,
+  UpdatedPhrase,
+  AddedScore,
+} from "@/types";
 
 export const getLetters = createAsyncThunk("getLetters", async () => {
   const urls: string[] = [];
@@ -48,4 +54,14 @@ export const getLikes = createAsyncThunk(
 export const getQuiz = createAsyncThunk(
   "getQuiz",
   async () => await api("/phrases"),
+);
+
+export const getScores = createAsyncThunk(
+  "getScores",
+  async () => await api("/scores"),
+);
+
+export const addScore = createAsyncThunk(
+  "addScore",
+  async (data: AddedScore) => await api("/scores", "post", data as never),
 );
