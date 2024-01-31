@@ -183,6 +183,10 @@ export const quiz = createSlice({
     changeStep: (state, { payload: idx }) => {
       state.currentStep = idx;
     },
+    toggleLike: ({ steps, currentStep }) => {
+      const { question } = steps[currentStep!];
+      question.like = !question.like;
+    },
   },
 
   extraReducers: (builder) => {
@@ -195,8 +199,8 @@ export const quiz = createSlice({
         .slice(0, 5);
 
       questions.forEach((question, questionIdx, questionArr) => {
-        const { meanings, ...rest } = question;
         const answers: QuizAnswer[] = [];
+        const { meanings } = question;
 
         answers.push({
           text: meanings[0],
@@ -223,10 +227,7 @@ export const quiz = createSlice({
 
         answers.sort(() => Math.random() - 0.5);
 
-        state.steps.push({
-          question: rest,
-          answers,
-        });
+        state.steps.push({ question, answers });
       });
 
       state.currentStep = 0;
@@ -275,3 +276,4 @@ export const scores = createSlice({
 export const setHeader = app.actions.setHeader;
 export const selectAnswer = quiz.actions.selectAnswer;
 export const changeStep = quiz.actions.changeStep;
+export const toggleLike = quiz.actions.toggleLike;

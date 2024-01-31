@@ -1,34 +1,24 @@
-import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import cn from "classnames";
 import type { FC } from "react";
 
-import { updatePhrase } from "@/redux/thunks";
 import styles from "./styles.module.scss";
 import type { Phrase } from "@/types";
-import type { AppDispatch, RootState } from "@/redux/types";
 
 export type PhraseProps = Partial<Phrase> & {
   className?: string;
   showMeanings?: boolean;
+  onLikeToggle: () => void;
 };
 
-const Phrase: FC<PhraseProps> = (props) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const updateStatus = useSelector(
-    (state: RootState) => state.dictionary.update.status,
-  );
-  const { className, ...data } = props;
-
-  const onLikeToggle = () => {
-    if (updateStatus === "pending") {
-      return;
-    }
-    dispatch(updatePhrase({ ...data, like: !data!.like }));
-  };
-
+const Phrase: FC<PhraseProps> = ({
+  showMeanings = true,
+  className,
+  onLikeToggle,
+  ...data
+}) => {
   const { like, name, meanings } = data;
 
   return (
@@ -54,11 +44,9 @@ const Phrase: FC<PhraseProps> = (props) => {
       >
         <div>Скоро здесь появится изображение</div>
       </div>
-      {meanings && (
+      {showMeanings && (
         <ul className={cn("g-col-12 p-0 m-0 fs-4", styles.meanings)}>
-          {meanings.map((item, idx) => (
-            <li key={idx}>{item}</li>
-          ))}
+          {meanings?.map((item, idx) => <li key={idx}>{item}</li>)}
         </ul>
       )}
     </div>

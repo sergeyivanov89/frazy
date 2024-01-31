@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Spinner } from "reactstrap";
 
 import PhraseUI from "@/components/Phrase";
-import { getPhrase } from "@/redux/thunks";
+import { getPhrase, updatePhrase } from "@/redux/thunks";
 import type { RootState, AppDispatch } from "@/redux/types";
 
 const Phrase = () => {
@@ -13,6 +13,9 @@ const Phrase = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { data, status } = useSelector(
     (state: RootState) => state.dictionary.phrase,
+  );
+  const updateStatus = useSelector(
+    (state: RootState) => state.dictionary.update.status,
   );
 
   useEffect(() => {
@@ -31,7 +34,14 @@ const Phrase = () => {
     return null;
   }
 
-  return <PhraseUI {...data} />;
+  const onLikeToggle = () => {
+    if (updateStatus === "pending") {
+      return;
+    }
+    dispatch(updatePhrase({ ...data, like: !data!.like }));
+  };
+
+  return <PhraseUI {...data} onLikeToggle={onLikeToggle} />;
 };
 
 export default Phrase;

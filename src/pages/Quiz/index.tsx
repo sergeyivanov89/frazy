@@ -4,8 +4,8 @@ import { Button, ButtonGroup, Spinner } from "reactstrap";
 
 import Phrase from "@/components/Phrase";
 import withNavPage from "../withNavPage";
-import { getQuiz, addScore } from "@/redux/thunks";
-import { selectAnswer as select, changeStep } from "@/redux/slices";
+import { getQuiz, addScore, updatePhrase } from "@/redux/thunks";
+import { selectAnswer as select, changeStep, toggleLike } from "@/redux/slices";
 import type { AppDispatch, RootState } from "@/redux/types";
 
 const Quiz = () => {
@@ -15,6 +15,9 @@ const Quiz = () => {
   );
   const addScoreStatus = useSelector(
     (state: RootState) => state.scores.add.status,
+  );
+  const updatePhraseStatus = useSelector(
+    (state: RootState) => state.dictionary.update.status,
   );
   const [showFinalScreen, setShowFinalScreen] = useState(false);
 
@@ -74,6 +77,14 @@ const Quiz = () => {
     dispatch(select(idx));
   };
 
+  const onLikeToggle = () => {
+    if (updatePhraseStatus === "pending") {
+      return;
+    }
+    dispatch(updatePhrase({ ...question, like: !question!.like }));
+    dispatch(toggleLike());
+  };
+
   if (showFinalScreen) {
     return (
       <>
@@ -89,7 +100,12 @@ const Quiz = () => {
 
   return (
     <>
-      <Phrase {...question} className="mb-4" />
+      <Phrase
+        {...question}
+        className="mb-4"
+        onLikeToggle={onLikeToggle}
+        showMeanings={false}
+      />
 
       <div className="d-flex flex-column gap-2 mb-5">
         {answers.map(({ text, isRight, isSelected }, idx) => {
